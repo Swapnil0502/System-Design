@@ -2,10 +2,12 @@ package ParkingLotSystem.entity;
 
 import ParkingLotSystem.enums.SpotType;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class ParkingSpot {
     String spotId;
     SpotType spotType;
-    Boolean isOccupied;
+    private final AtomicBoolean occupied = new AtomicBoolean(false);
     Integer floorNumber;
 
     public String getSpotId() {
@@ -16,12 +18,15 @@ public class ParkingSpot {
         this.spotId = spotId;
     }
 
-    public Boolean getOccupied() {
-        return isOccupied;
+    public AtomicBoolean isOccupied() {
+        return occupied;
     }
 
-    public void setOccupied(Boolean occupied) {
-        isOccupied = occupied;
+    public Boolean reserve() {
+        return occupied.compareAndSet(false, true);
+    }
+    public void release(){
+        occupied.set(false);
     }
 
     public SpotType getSpotType() {
@@ -32,10 +37,9 @@ public class ParkingSpot {
         this.spotType = spotType;
     }
 
-    public ParkingSpot(String spotId, SpotType spotType, Boolean isOccupied, Integer floorNumber) {
+    public ParkingSpot(String spotId, SpotType spotType, Integer floorNumber) {
         this.spotId = spotId;
         this.spotType = spotType;
-        this.isOccupied = isOccupied;
         this.floorNumber = floorNumber;
     }
 

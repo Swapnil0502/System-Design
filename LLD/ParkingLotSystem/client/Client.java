@@ -23,15 +23,15 @@ public class Client {
 
         //parking floors
         ParkingFloor floor1 = new ParkingFloor(List.of(
-                new ParkingSpot("S-101", SpotType.BIKE, false, 1),
-                new ParkingSpot("S-102", SpotType.CAR, false, 1),
-                new ParkingSpot("S-103", SpotType.TRUCK, false, 1)
+                new ParkingSpot("S-101", SpotType.BIKE, 1),
+                new ParkingSpot("S-102", SpotType.CAR, 1),
+                new ParkingSpot("S-103", SpotType.TRUCK, 1)
         ));
 
         ParkingFloor floor2 = new ParkingFloor(List.of(
-                new ParkingSpot("S-101", SpotType.BIKE, false, 2),
-                new ParkingSpot("S-102", SpotType.CAR, false, 2),
-                new ParkingSpot("S-103", SpotType.TRUCK, false, 2)
+                new ParkingSpot("S-101", SpotType.BIKE, 2),
+                new ParkingSpot("S-102", SpotType.CAR, 2),
+                new ParkingSpot("S-103", SpotType.TRUCK, 2)
         ));
 
         //parking lot

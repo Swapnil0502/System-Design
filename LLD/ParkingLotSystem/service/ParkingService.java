@@ -7,15 +7,13 @@ import ParkingLotSystem.strategies.AllocationStrategy;
 import ParkingLotSystem.strategies.FareCalculationStrategy;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ParkingService {
 
     // TODO:  use concurrent hashmap
-    Set<Ticket> tickets = new HashSet<>();
+    Map<String, Ticket> tickets = new ConcurrentHashMap<>();
 
 
     private final AllocationStrategy allocationStrategy;
@@ -25,8 +23,8 @@ public class ParkingService {
         this.allocationStrategy = allocationStrategy;
         this.fareCalculationStrategy = fareCalculationStrategy;
     }
-    //park
 
+    //park
     public Ticket park(Vehicle vehicle, ParkingLot parkingLot) {
 
         // TODO : make allocation atomic/thread safe
@@ -35,11 +33,11 @@ public class ParkingService {
         if (availableSpot == null) {
             throw new ParkingFullException("No parking space available");
         }
-        availableSpot.setOccupied(true);
+
 
         Ticket ticket = new Ticket(vehicle, availableSpot);
 
-        tickets.add(ticket);
+        tickets.putIfAbsent(ticket.getTicketId(), ticket);
 
         return ticket;
     }
@@ -48,17 +46,17 @@ public class ParkingService {
 
     public Reciept unpark(Ticket ticket){
 
-            if (!tickets.contains(ticket))
+        Ticket activeTicket = tickets.remove(ticket.getTicketId());
+
+            //remove ticket
+            if (activeTicket == null)
             throw new InvalidTicketException("Invalid ticket");
 
                 //free spot
-                ticket.getParkingSpot().setOccupied(false);
+                activeTicket.getParkingSpot().release();
 
                 //calculate fare
-                Double calculatedFare = fareCalculationStrategy.calculateFare(ticket);
-
-                //remove ticket
-                tickets.remove(ticket);
+                Double calculatedFare = fareCalculationStrategy.calculateFare(activeTicket);
 
                 return new Reciept(ticket.getTicketId(), calculatedFare);
     }

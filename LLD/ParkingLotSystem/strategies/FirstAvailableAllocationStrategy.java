@@ -11,7 +11,7 @@ public class FirstAvailableAllocationStrategy implements AllocationStrategy {
     public ParkingSpot allocateSpot(VehicleType vehicleType, ParkingLot parkingLot){
         for(ParkingFloor floor : parkingLot.getParkingFloors()){
             for(ParkingSpot spot: floor.getParkingSpots()){
-                if(!spot.getOccupied() && spot.getSpotType().name().equals(vehicleType.name())){
+                if(spot.getSpotType().name().equals(vehicleType.name()) && spot.reserve()){
                     return spot;
                 }
             }
