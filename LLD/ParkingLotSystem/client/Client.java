@@ -47,6 +47,9 @@ public class Client {
         } catch (ParkingFullException ex) {
             System.out.println(ex.getMessage());
         }
+        catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
 
 
         try {
@@ -57,6 +60,9 @@ public class Client {
         } catch (ParkingFullException ex) {
             System.out.println(ex.getMessage());
         }
+        catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
 
         try {
             Reciept reciept = parkingService.unpark(null);
@@ -64,12 +70,17 @@ public class Client {
         } catch (InvalidTicketException ex) {
             System.out.println(ex.getMessage());
         }
-
+        catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         try {
             ticketBike2 = parkingService.park(bike3, parkingLot);
             if (ticketBike2 != null)
                 System.out.println("Parked bike3 " + ticketBike2);
         } catch (ParkingFullException ex) {
+            System.out.println(ex.getMessage());
+        }
+        catch(Exception ex) {
             System.out.println(ex.getMessage());
         }
 
@@ -79,6 +90,9 @@ public class Client {
             if (ticketCar != null)
                 System.out.println("Parked car1 " + ticketCar);
         } catch (ParkingFullException ex) {
+            System.out.println(ex.getMessage());
+        }
+        catch(Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
